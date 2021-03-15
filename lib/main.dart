@@ -34,9 +34,19 @@ class _PerguntasAppState extends State<PerguntasApp> {
 
   @override
   Widget build(BuildContext context) {
-    final perguntas = [
-      "Qual a sua cor preferida?",
-      "Qual o seu animal preferido?",
+    final List<Map<String, Object>> perguntas = [
+      {
+        'texto': "Qual a sua cor preferida?",
+        'respostas': ['Preto', 'Vermelho', 'Verde', 'Branco']
+      },
+      {
+        'texto': "Qual o seu animal preferido?",
+        'respostas': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
+      },
+      {
+        'texto': "Qual o seu instrutor preferido?",
+        'respostas': ['Johnny', 'Daniel', 'Miyagi', 'Outro'],
+      },
     ];
 
     return Scaffold(
@@ -48,7 +58,7 @@ class _PerguntasAppState extends State<PerguntasApp> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Questao(perguntas[_perguntaSelecionada]),
+            Questao(perguntas[_perguntaSelecionada]['texto']),
             Resposta("Resposta 1", _responder),
             Resposta("Resposta 2", _responder),
             Resposta("Resposta 3", _responder),
