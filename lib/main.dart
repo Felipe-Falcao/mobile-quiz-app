@@ -49,6 +49,8 @@ class _PerguntasAppState extends State<PerguntasApp> {
       },
     ];
 
+    List<String> respostas = perguntas[_perguntaSelecionada]["respostas"];
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -59,9 +61,7 @@ class _PerguntasAppState extends State<PerguntasApp> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Questao(perguntas[_perguntaSelecionada]['texto']),
-            Resposta("Resposta 1", _responder),
-            Resposta("Resposta 2", _responder),
-            Resposta("Resposta 3", _responder),
+            ...respostas.map((r) => Resposta(r, _responder)).toList(),
           ],
         ),
       ),
