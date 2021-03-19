@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projeto_perguntas/resposta.dart';
-import './questao.dart';
+import 'resultado.dart';
+import 'questionario.dart';
 
 void main() => runApp(Perguntas());
 
@@ -26,45 +26,47 @@ class PerguntasApp extends StatefulWidget {
 class _PerguntasAppState extends State<PerguntasApp> {
   var _perguntaSelecionada = 0;
 
+  final List<Map<String, Object>> _perguntas = const [
+    {
+      'texto': "Qual a sua cor preferida?",
+      'respostas': ['Preto', 'Vermelho', 'Verde', 'Branco']
+    },
+    {
+      'texto': "Qual o seu animal preferido?",
+      'respostas': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
+    },
+    {
+      'texto': "Qual o seu instrutor preferido?",
+      'respostas': ['Johnny', 'Daniel', 'Miyagi', 'Outro'],
+    },
+  ];
+
   void _responder() {
-    setState(() {
-      _perguntaSelecionada++;
-    });
+    if (temPerguntaSelecionada) {
+      setState(() {
+        _perguntaSelecionada++;
+      });
+    }
+  }
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, Object>> perguntas = [
-      {
-        'texto': "Qual a sua cor preferida?",
-        'respostas': ['Preto', 'Vermelho', 'Verde', 'Branco']
-      },
-      {
-        'texto': "Qual o seu animal preferido?",
-        'respostas': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
-      },
-      {
-        'texto': "Qual o seu instrutor preferido?",
-        'respostas': ['Johnny', 'Daniel', 'Miyagi', 'Outro'],
-      },
-    ];
-
-    List<String> respostas = perguntas[_perguntaSelecionada]["respostas"];
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text("Perguntas"),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Questao(perguntas[_perguntaSelecionada]['texto']),
-            ...respostas.map((r) => Resposta(r, _responder)).toList(),
-          ],
-        ),
-      ),
+      body: temPerguntaSelecionada
+          ? Questionario(
+              perguntaSelecionada: _perguntaSelecionada,
+              perguntas: _perguntas,
+              quandoResponder: _responder,
+            )
+          : Resultado(),
     );
   }
 }
